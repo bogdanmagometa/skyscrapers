@@ -122,6 +122,31 @@ def check_horizontal_visibility(board: list):
     return True
 
 
+def get_reversed_board(board: list):
+    """
+    Transpose a given board, so that the columns become rows and rows become columns.
+
+    >>> get_reversed_board(['***21**', '412453*', '423145*', '*543215', '*35214*', '*41532*', '*2*1***'])
+    ['*44****', '*125342', '*23451*', '2413251', '154213*', '*35142*', '***5***']
+    >>> get_reversed_board(['***21**', '412453*', '423145*', '*543215', '*35214*', '*41232*', '*2*1***'])
+    ['*44****', '*125342', '*23451*', '2413221', '154213*', '*35142*', '***5***']
+    >>> get_reversed_board(['112', '235', '323'])
+    ['123', '132', '253']
+    >>> get_reversed_board(['13', '24'])
+    ['12', '34']
+    >>> get_reversed_board(['*'])
+    ['*']
+    """
+
+    reversed_board = []
+
+    for row in range(len(board[0])):
+        reversed_board.append("")
+        for column in board:
+            reversed_board[-1] += column[row]
+
+    return reversed_board
+
 def check_columns(board: list):
     """
     Check column-wise compliance of the board for uniqueness (buildings of unique height) and visibility (top-bottom and vice versa).
@@ -135,7 +160,10 @@ def check_columns(board: list):
     >>> check_columns(['***21**', '412553*', '423145*', '*543215', '*35214*', '*41532*', '*2*1***'])
     False
     """
-    pass
+
+    reversed_board = get_reversed_board(board)
+
+    return check_uniqueness_in_rows(reversed_board) and check_horizontal_visibility(reversed_board)
 
 
 def check_skyscrapers(input_path: str):
@@ -147,7 +175,11 @@ def check_skyscrapers(input_path: str):
     >>> check_skyscrapers("check.txt")
     True
     """
-    pass
+
+    board = read_input(input_path)
+
+    return check_not_finished_board(board) and check_uniqueness_in_rows(board) and \
+                        check_horizontal_visibility(board) and check_columns(board)
 
 
 if __name__ == "__main__":
