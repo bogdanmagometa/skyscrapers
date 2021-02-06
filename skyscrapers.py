@@ -1,12 +1,26 @@
+"""
+skyscrapers.py
+
+This module's purpose is to check if a given combination in scyscrapers game is a winning
+combination.
+
+Github repository:
+https://github.com/bogdanmagometa/skyscrapers
+"""
+
 def read_input(path: str):
     """
     Read game board file from path.
     Return list of str.
 
     >>> read_input("check.txt")
-    ['***21**', '452453*', '423145*', '*543215', '*35214*', '*41532*', '*2*1***']
+    ['***21**', '412453*', '423145*', '*543215', '*35214*', '*41532*', '*2*1***']
     """
-    pass
+
+    with open(path, 'r') as infile:
+        board = list(map(lambda line: line.strip(), infile.readlines()))
+
+    return board
 
 
 def left_to_right_check(input_line: str, pivot: int):
@@ -23,7 +37,17 @@ def left_to_right_check(input_line: str, pivot: int):
     >>> left_to_right_check("452453*", 5)
     False
     """
-    pass
+
+    maximum = 0
+    count = 0
+
+    for char in input_line[1:-1]:
+        height = int(char)
+        if height > maximum:
+            maximum = height
+            count += 1
+
+    return count == pivot
 
 
 def check_not_finished_board(board: list):
@@ -106,3 +130,5 @@ def check_skyscrapers(input_path: str):
 
 if __name__ == "__main__":
     print(check_skyscrapers("check.txt"))
+    import doctest
+    doctest.testmod()
