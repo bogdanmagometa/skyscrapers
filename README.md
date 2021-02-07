@@ -1,4 +1,4 @@
-# skyscrapers
+# skyscrapers (python 3.9.1)
 
 ### Project for checking winning combinations in skyscrapers game.
 
